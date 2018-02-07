@@ -21,7 +21,7 @@ You can see a list of Twitch ingest endpoints at [bashtech.net](https://bashtech
 ## standalone example
 
 ```
-docker run --rm -it -p 1936:1936 -e STREAM_KEY=live_x01234567890123456789x \
+docker run --rm -it -p 1935:1935 -e STREAM_KEY=live_x01234567890123456789x \
    -e BITRATE=3500k -e RESOLUTION=1280x720 -e PRESET=faster -e FRAMERATE=60 -e THREADS=8 \
    -e INGEST=rtmp://live-jfk.twitch.tv/app shamelesscookie/nginx-rtmp-ffmpeg:latest
 ```
