@@ -20,15 +20,15 @@ You can see a list of Twitch ingest endpoints at [bashtech.net](https://bashtech
 
 ## standalone example
 
-```
+<pre>
 docker run --rm -it -p 1935:1935 -e STREAM_KEY=live_x01234567890123456789x \
    -e BITRATE=3500k -e RESOLUTION=1280x720 -e PRESET=faster -e FRAMERATE=60 -e THREADS=8 \
    -e INGEST=rtmp://live-jfk.twitch.tv/app shamelesscookie/nginx-rtmp-ffmpeg:latest
-```
+</pre>
 
 ## docker-compose example
 
-```
+<pre>
 version: '2'
 services:
   nginx-rtmp-ffmpeg:
@@ -46,16 +46,16 @@ services:
       - FRAMERATE=60
       - THREADS=8
       - INGEST=rtmp://live-jfk.twitch.tv/app
-```
+</pre>
 
 ## source PC settings
 
-Configure your streaming software to output to `rtmp://<docker-ip>:1935/livein`
+Configure your streaming software to output to `rtmp://<docker-server>:1935/livein`
 Make sure you include your stream key in your streaming software as well, e.g. for OBS:
 
 - File > Settings > Stream
 - Stream Type: `Custom Streaming Server`
-- URL: `rtmp://<docker-ip>:1935/livein`
+- URL: `rtmp://<docker-server>:1935/livein`, e.g. `rtmp://mydockerbox:1935/livein`
 - Stream key: `<your-stream-key>`
 
 Then use video settings that are very high in quality and low in overhead, e.g. for OBS and nVidia video cards:
