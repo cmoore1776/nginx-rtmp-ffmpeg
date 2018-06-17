@@ -9,11 +9,11 @@ and have a different PC encode and publish the stream to the remote server.
 ## required environment variables
 
 - `STREAM_KEY`: the stream key required by your streaming service, e.g. `live_x01234567890123456789x`
-- `BITRATE`: the bitrate to output (ensure your internet upstream can handle this value), e.g. `3500k`
+- `BITRATE`: the bitrate, in Kbps, to output (ensure your internet upstream can handle this value), e.g. `3500`
 - `RESOLUTION` the resolution to output, e.g. `1280x720`
 - `PRESET` the x264 preset to encode with, e.g. `veryfast`
 - `PROFILE` the x264 profile to use, e.g. `high`
-- `LEVEL` the [x264 level](https://en.wikipedia.org/wiki/H.264/MPEG-4_AVC#Levels) to use, e.g. `4.1`
+- `LEVEL` the [x264 level](https://en.wikipedia.org/wiki/H.264/MPEG-4_AVC#Levels) to use, e.g. `41`
 - `FRAMERATE` the framerate to output, e.g. `60`
 - `THREADS` the number of CPU threads to use for encoding, e.g. `4`
 - `INGEST` the streaming service ingest server, e.g. `rtmp://live-jfk.twitch.tv/app`
@@ -24,8 +24,8 @@ You can see a list of Twitch ingest endpoints at [bashtech.net](https://bashtech
 
 ```
 docker run --rm -it -p 1935:1935 -e STREAM_KEY=live_x01234567890123456789x \
-   -e BITRATE=3500k -e RESOLUTION=1280x720 -e PRESET=veryfast -e FRAMERATE=60 -e THREADS=4 \
-   -e PROFILE=high -e LEVEL=4.1 -e INGEST=rtmp://live-jfk.twitch.tv/app shamelesscookie/nginx-rtmp-ffmpeg:latest
+   -e BITRATE=3500 -e RESOLUTION=1280x720 -e PRESET=veryfast -e FRAMERATE=60 -e THREADS=4 \
+   -e PROFILE=high -e LEVEL=41 -e INGEST=rtmp://live-jfk.twitch.tv/app shamelesscookie/nginx-rtmp-ffmpeg:latest
 ```
 
 ## docker-compose example
@@ -42,12 +42,12 @@ services:
     restart: always
     environment:
       - STREAM_KEY=live_x01234567890123456789x
-      - BITRATE=3500k
+      - BITRATE=3500
       - RESOLUTION=1280x720
       - PRESET=veryfast
       - FRAMERATE=60
       - PROFILE=high
-      - LEVEL=4.1
+      - LEVEL=41
       - THREADS=4
       - INGEST=rtmp://live-jfk.twitch.tv/app
 ```
