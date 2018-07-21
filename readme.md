@@ -24,19 +24,19 @@ You can see a list of Twitch suggested settings and ingest endpoints at [stream.
 
 The main limiting factor for `BITRATE` is your upload speed. Use a site such as [www.speedtest.net](http://www.speedtest.net) to validate your upload speed, and don't exceed 80% of that number. For example, if your upload speed is 5Mbit (5000Kbit) then don't use a bitrate above 4000). Use Twitch's recommended settings from [stream.twitch.tv](https://stream.twitch.tv/).
 
-The main limiting factor for `RESOLUTION`, `FRAMERATE`, and `PRESET` is CPU power. A rough way to estimate how much CPU power a given setting will take, multiply the resolution and framerate, and then multiply by the following values to get the total MHz you will need (sum of all cores):
- * ultrafast: x0.1
+The main limiting factor for `RESOLUTION`, `FRAMERATE`, and `PRESET` is CPU power. A rough way to estimate how much CPU power a given setting will take, multiply the resolution and framerate, and then multiply by the following values to get the total MHz  (sum of all cores):
+ * superfast: x0.1
  * veryfast: x0.2
  * faster: x0.3
  * fast: x0.4
  * medium: x0.5
 
 Examples:
- * 1080p60 at medium, you will need: 1080 * 60 * 0.5 = 32400. You will need a total of 32400MHz (fast 6-core CPU)
- * 1080p60 at veryfast, you will need: 1080 * 60 * 0.2 = 12960. You will need a total of 12960MHz (average quad-core CPU)
- * 1080p30 at fast, you will need: 1080 * 30 * 0.4 = 12960. You will need a total of 12960MHz (average quad-core CPU)
- * 720p60 at faster, you will need: 720 * 60 * 0.3 = 12960. You will need a total of 12960MHz (average quad-core CPU)
- * 720p30 at veryfast, you will need: 720 * 30 * 0.2 = 4320. You will need a total of 4320MHz (average dual-core CPU)
+ * 1080p60 at medium: 1080 x 60 x 0.5 = 32400MHz (fast hexa-core CPU)
+ * 1080p60 at veryfast: 1080 x 60 x 0.2 = 12960MHz (average quad-core CPU)
+ * 1080p30 at fast: 1080 x 30 x 0.4 = 12960MHz (average quad-core CPU)
+ * 720p60 at faster: 720 x 60 x 0.3 = 12960MHz (average quad-core CPU)
+ * 720p30 at veryfast: 720 x 30 x 0.2 = 4320MHz (average dual-core CPU)
 
 If you monitor OBS Stats (from the View menu > Stats), look for:
 
