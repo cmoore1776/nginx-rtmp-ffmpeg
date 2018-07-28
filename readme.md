@@ -24,25 +24,27 @@ You can see a list of Twitch suggested settings and ingest endpoints at [stream.
 
 The main limiting factor for `BITRATE` is your upload speed. Use a site such as [www.speedtest.net](http://www.speedtest.net) to validate your upload speed, and don't exceed 80% of that number. For example, if your upload speed is 5Mbit (5000Kbit) then don't use a bitrate above 4000). Use Twitch's recommended settings from [stream.twitch.tv](https://stream.twitch.tv/).
 
-The main limiting factor for `RESOLUTION`, `FRAMERATE`, and `PRESET` is CPU power. A rough way to estimate how much CPU power a given setting will take, multiply the resolution and framerate, and then multiply by the following values to get the total MHz  (sum of all cores):
- * superfast: x0.1
- * veryfast: x0.2
- * faster: x0.3
- * fast: x0.4
- * medium: x0.5
+The main limiting factor for `RESOLUTION`, `FRAMERATE`, and `PRESET` (and to a small extent, `BITRATE`) is CPU power. A rough way to estimate how much CPU power a given setting will take, use the table below, and consider that a value of 50 = one modern CPU core at 4GHz:
 
-Examples:
- * 1080p60 at medium: 1080 x 60 x 0.5 = 32400MHz (fast hexa-core CPU)
- * 1080p60 at veryfast: 1080 x 60 x 0.2 = 12960MHz (average quad-core CPU)
- * 1080p30 at fast: 1080 x 30 x 0.4 = 12960MHz (average quad-core CPU)
- * 720p60 at faster: 720 x 60 x 0.3 = 12960MHz (average quad-core CPU)
- * 720p30 at veryfast: 720 x 30 x 0.2 = 4320MHz (average dual-core CPU)
+| resolution | fps | slow | medium | fast | faster | veryfast | superfast | 
+|------------|-----|------|--------|------|--------|----------|-----------| 
+| 1920x1080  | 60  | 635  | 460    | 365  | 305    | 215      | 160       | 
+| 1920x1080  | 30  | 320  | 230    | 185  | 155    | 110      | 80        | 
+| 1280x720   | 60  | 395  | 280    | 230  | 195    | 145      | 120       | 
+| 1280x720   | 30  | 200  | 140    | 115  | 100    | 75       | 60        | 
 
-If you monitor OBS Stats (from the View menu > Stats), look for:
+or, in terms of numbers of 4GHz CPU cores:
 
- * **rendering lag**: GPU is overloaded - try using a framerate limiter such as [RivaTuner Statistics Server](https://www.guru3d.com/files-details/rtss-rivatuner-statistics-server-download.html) to cap framerate at 60fps (60Hz or 120Hz monitor) or 72fps (144Hz monitor).
- * **encoding lag**: CPU is overloaded - ensure you are using a low-overhead codec such as NVENC. AMD users, use an easier x264 profile such as veryfast or ultrafast
- * **dropped frames**: network is choked - lower your bitrate
+| resolution | fps | slow | medium | fast | faster | veryfast | superfast | 
+|------------|-----|------|--------|------|--------|----------|-----------| 
+| 1920x1080  | 60  | 12.7 | 9.2    | 7.3  | 6.1    | 4.3      | 3.2       | 
+| 1920x1080  | 30  | 6.4  | 4.6    | 3.7  | 3.1    | 2.2      | 1.6       | 
+| 1280x720   | 60  | 7.9  | 5.6    | 4.6  | 3.9    | 2.9      | 2.4       | 
+| 1280x720   | 30  | 4    | 2.8    | 2.3  | 2      | 1.5      | 1.2       | 
+
+When selecting your options, be aware that presets from `veryfast` and above noticably lower picture quality:
+
+![1080p60_quality](https://scratch.christianmoore.me/streamquality/1080p60_quality.png)
 
 ## standalone example
 
@@ -90,8 +92,7 @@ Then use video settings that are very high in quality and low in overhead, e.g. 
 
 - File > Settings > Output > Streaming
 - Encoder: `NVENC H.264`
-- Rate Control: `CBR`
-- Bitrate: `50000`, or some other very high bitrate for local stream
-- Keyframe Interval: `0`
+- Rate Control: `Lossless`
+- Keyframe Interval: `2`
 - Preset: `Default`
 - Profile: `high`

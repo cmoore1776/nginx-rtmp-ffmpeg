@@ -14,6 +14,7 @@ rtmp {
   server {
     listen 1935;
     chunk_size 4096;
+    max_message 10M;
 
     application livein {
       live on;
