@@ -92,7 +92,8 @@ Then use video settings that are very high in quality and low in overhead, e.g. 
 
 - File > Settings > Output > Streaming
 - Encoder: `NVENC H.264`
-- Rate Control: `Lossless`
+- Rate Control: `CBR`
+- Bitrate: `50000`, or some other very high bitrate for local stream
 - Keyframe Interval: `2`
 - Preset: `Default`
 - Profile: `high`
