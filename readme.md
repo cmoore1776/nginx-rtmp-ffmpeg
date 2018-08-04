@@ -15,7 +15,6 @@ and have a different PC encode and publish the stream to the remote server.
 - `PROFILE` the x264 profile to use, e.g. `high`
 - `LEVEL` the [x264 level](https://en.wikipedia.org/wiki/H.264/MPEG-4_AVC#Levels) to use, e.g. `31`
 - `FRAMERATE` the framerate to output, e.g. `30`
-- `TUNE` the [x264 tune](https://trac.ffmpeg.org/wiki/Encode/H.264#Tune) to use, e.g. `animation`
 - `THREADS` the number of CPU threads to use for encoding, e.g. `0` for auto
 - `INGEST` the streaming service ingest server, e.g. `rtmp://live-jfk.twitch.tv/app`
 
@@ -51,8 +50,8 @@ When selecting your options, be aware that presets from `veryfast` and above not
 
 ```
 docker run --rm -it -p 1935:1935 -e STREAM_KEY=live_x01234567890123456789x -e THREADS=0 \
-   -e BITRATE=2500 -e RESOLUTION=1280x720 -e PRESET=veryfast -e FRAMERATE=30 -e TUNE=animation \
-   -e PROFILE=high -e LEVEL=31 -e INGEST=rtmp://live-jfk.twitch.tv/app shamelesscookie/nginx-rtmp-ffmpeg:latest
+   -e BITRATE=2500 -e RESOLUTION=1280x720 -e PRESET=veryfast -e FRAMERATE=30 -e PROFILE=high \
+   -e LEVEL=31 -e INGEST=rtmp://live-jfk.twitch.tv/app shamelesscookie/nginx-rtmp-ffmpeg:latest
 ```
 
 ## docker-compose example
@@ -73,7 +72,6 @@ services:
       - RESOLUTION=1280x720
       - PRESET=veryfast
       - FRAMERATE=30
-      - TUNE=animation
       - PROFILE=high
       - LEVEL=31
       - THREADS=0
