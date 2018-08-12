@@ -15,34 +15,13 @@ and have a different PC encode and publish the stream to the remote server.
 - `PROFILE` the x264 profile to use, e.g. `high`
 - `LEVEL` the [x264 level](https://en.wikipedia.org/wiki/H.264/MPEG-4_AVC#Levels) to use, e.g. `31`
 - `FRAMERATE` the framerate to output, e.g. `30`
+- `BFRAMES` the number of [B-Frames](https://en.wikipedia.org/wiki/Video_compression_picture_types#Bi-directional_predicted_(B)_frames/slices_(macroblocks)) to use, e.g. `3`
 - `THREADS` the number of CPU threads to use for encoding, e.g. `0` for auto
 - `INGEST` the streaming service ingest server, e.g. `rtmp://live-jfk.twitch.tv/app`
 
 You can see a list of Twitch suggested settings and ingest endpoints at [stream.twitch.tv](https://stream.twitch.tv/), and you can validate your configuration is proper and stable at [inspector.twitch.tv](https://inspector.twitch.tv).
 
-## tips
-
-The main limiting factor for `BITRATE` is your upload speed. Use a site such as [www.speedtest.net](http://www.speedtest.net) to validate your upload speed, and don't exceed 80% of that number. For example, if your upload speed is 5Mbit (5000Kbit) then don't use a bitrate above 4000). Use Twitch's recommended settings from [stream.twitch.tv](https://stream.twitch.tv/).
-
-The main limiting factor for `RESOLUTION`, `FRAMERATE`, and `PRESET` (and to a small extent, `BITRATE`) is CPU power. A rough way to estimate how much CPU power a given setting will take, use the table below, and consider that a value of 50 = one modern CPU core at 4GHz:
-
-| resolution | fps | slow | medium | fast | faster | veryfast | superfast | 
-|------------|-----|------|--------|------|--------|----------|-----------| 
-| 1920x1080  | 60  | 635  | 460    | 365  | 305    | 215      | 160       | 
-| 1920x1080  | 30  | 320  | 230    | 185  | 155    | 110      | 80        | 
-| 1280x720   | 60  | 395  | 280    | 230  | 195    | 145      | 120       | 
-| 1280x720   | 30  | 200  | 140    | 115  | 100    | 75       | 60        | 
-
-or, in terms of numbers of 4GHz CPU cores:
-
-| resolution | fps | slow | medium | fast | faster | veryfast | superfast | 
-|------------|-----|------|--------|------|--------|----------|-----------| 
-| 1920x1080  | 60  | 12.7 | 9.2    | 7.3  | 6.1    | 4.3      | 3.2       | 
-| 1920x1080  | 30  | 6.4  | 4.6    | 3.7  | 3.1    | 2.2      | 1.6       | 
-| 1280x720   | 60  | 7.9  | 5.6    | 4.6  | 3.9    | 2.9      | 2.4       | 
-| 1280x720   | 30  | 4    | 2.8    | 2.3  | 2      | 1.5      | 1.2       | 
-
-When selecting your options, be aware that presets from `veryfast` and above noticably lower picture quality:
+When selecting your options, be aware that presets from `veryfast` and above noticeably lower picture quality:
 
 ![1080p60_quality](https://scratch.christianmoore.me/streamquality/1080p60_quality.png)
 
@@ -51,7 +30,7 @@ When selecting your options, be aware that presets from `veryfast` and above not
 ```
 docker run --rm -it -p 1935:1935 -e STREAM_KEY=live_x01234567890123456789x -e THREADS=0 \
    -e BITRATE=2500 -e RESOLUTION=1280x720 -e PRESET=veryfast -e FRAMERATE=30 -e PROFILE=high \
-   -e LEVEL=31 -e INGEST=rtmp://live-jfk.twitch.tv/app shamelesscookie/nginx-rtmp-ffmpeg:latest
+   -e LEVEL=31 -e BFRAMES=3 -e INGEST=rtmp://live-jfk.twitch.tv/app shamelesscookie/nginx-rtmp-ffmpeg:latest
 ```
 
 ## docker-compose example
@@ -75,6 +54,7 @@ services:
       - PROFILE=high
       - LEVEL=31
       - THREADS=0
+      - BFRAMES=3
       - INGEST=rtmp://live-jfk.twitch.tv/app
 ```
 
@@ -93,7 +73,8 @@ Then use video settings that are very high in quality and low in overhead, e.g. 
 - File > Settings > Output > Streaming
 - Encoder: `NVENC H.264`
 - Rate Control: `CBR`
-- Bitrate: `50000`, or some other very high bitrate for local stream
+- Bitrate: `100000`
 - Keyframe Interval: `2`
-- Preset: `Default`
+- Preset: `High Quality`
 - Profile: `high`
+- B-Frames: `3`
