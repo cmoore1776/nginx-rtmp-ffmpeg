@@ -20,11 +20,16 @@ and have a different PC encode and publish the stream to the remote server.
 - `BFRAMES` the number of [B-Frames](https://en.wikipedia.org/wiki/Video_compression_picture_types) to use, default `3`
 - `THREADS` the number of CPU threads to use for encoding, default `0` for auto
 - `INGEST` the streaming service ingest server, default `rtmp://live-jfk.twitch.tv/app`
+- `STREAM_KEY_2`: the stream key for a second streaming service
+- `INGEST_2` a second streaming service ingest server, default none
 
 The variables you set will be assembled into the following ffmpeg arguments:
 
 ```
-"-b:v ${BITRATE}K -bufsize ${BITRATE}K -s ${RESOLUTION} -c:v libx264 -preset ${PRESET} -profile:v ${PROFILE} -r ${FRAMERATE} -g ${FRAMERATE_2X} -keyint_min ${FRAMERATE_2X} -bf ${BFRAMES} -x264-params \"nal-hrd=cbr:force-cfr=1:keyint=${FRAMERATE_2X}:min-keyint=${FRAMERATE_2X}:no-scenecut\" -sws_flags lanczos -pix_fmt yuv420p -c:a copy -f flv -threads ${THREADS} -strict normal"
+-b:v ${BITRATE}K -bufsize ${BITRATE}K -s ${RESOLUTION} -c:v libx264 -preset ${PRESET} \
+-profile:v ${PROFILE} -r ${FRAMERATE} -g ${FRAMERATE_2X} -keyint_min ${FRAMERATE_2X} -bf ${BFRAMES} \
+-x264-params \"nal-hrd=cbr:force-cfr=1:keyint=${FRAMERATE_2X}:min-keyint=${FRAMERATE_2X}:no-scenecut\" \
+-sws_flags lanczos -pix_fmt yuv420p -c:a copy -f flv -threads ${THREADS} -strict normal
 ```
 
 If you prefer to customize the ffmpeg arguments, you can instead set the `FFMPEG_ARGS` environment variable, in which case none of the other optional environment variables will be used.
@@ -89,7 +94,7 @@ Then use video settings that are very high in quality and low in overhead, e.g. 
 - File > Settings > Output > Streaming
 - Encoder: `NVENC H.264`
 - Rate Control: `CBR`
-- Bitrate: `100000`
+- Bitrate: `50000`
 - Keyframe Interval: `2`
 - Preset: `High Quality`
 - Profile: `high`
