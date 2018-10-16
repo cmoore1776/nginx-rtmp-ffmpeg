@@ -13,6 +13,7 @@ and have a different PC encode and publish the stream to the remote server.
 ## optional environment variables
 
 - `BITRATE`: the bitrate, in Kbps, to output (ensure your internet upstream can handle this value), default `2500`
+- `BUFSIZE`: the bufsize, in Kbps, default `BITRATE / 3`
 - `RESOLUTION` the resolution to output, default `1280x720`
 - `PRESET` the [x264 preset](https://trac.ffmpeg.org/wiki/Encode/H.264#Preset) to encode with, default `veryfast`
 - `PROFILE` the x264 profile to use, default `high`
