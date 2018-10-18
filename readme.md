@@ -20,7 +20,7 @@ and have a different PC encode and publish the stream to the remote server.
 - `FRAMERATE` the framerate to output, default `30`
 - `BFRAMES` the number of [B-Frames](https://en.wikipedia.org/wiki/Video_compression_picture_types) to use, default `3`
 - `THREADS` the number of CPU threads to use for encoding, default `0` for auto
-- `SCALER` the [x264 scaler](https://ffmpeg.org/ffmpeg-scaler.html) to use, default `area` (best for downsampling)
+- `SCALER` the [x264 scaler](https://ffmpeg.org/ffmpeg-scaler.html) to use, default `lanczos`
 - `RC_LOOKAHEAD` the number of frames to lookahead for rate control, default `FRAMERATE / 3`
 - `INGEST` the streaming service ingest server, default `rtmp://live-jfk.twitch.tv/app`
 - `STREAM_KEY_2`: the stream key for a second streaming service
