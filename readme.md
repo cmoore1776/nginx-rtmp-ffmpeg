@@ -13,13 +13,15 @@ and have a different PC encode and publish the stream to the remote server.
 ## optional environment variables
 
 - `BITRATE`: the bitrate, in Kbps, to output (ensure your internet upstream can handle this value), default `2500`
-- `BUFSIZE`: the bufsize, in Kbps, default `BITRATE / 3`
+- `BUFSIZE`: the bufsize, in Kbps, default `(BITRATE + 128) / 3`
 - `RESOLUTION` the resolution to output, default `1280x720`
 - `PRESET` the [x264 preset](https://trac.ffmpeg.org/wiki/Encode/H.264#Preset) to encode with, default `veryfast`
 - `PROFILE` the x264 profile to use, default `high`
 - `FRAMERATE` the framerate to output, default `30`
 - `BFRAMES` the number of [B-Frames](https://en.wikipedia.org/wiki/Video_compression_picture_types) to use, default `3`
 - `THREADS` the number of CPU threads to use for encoding, default `0` for auto
+- `SCALER` the [x264 scaler](https://ffmpeg.org/ffmpeg-scaler.html) to use, default `area` (best for downsampling)
+- `RC_LOOKAHEAD` the number of frames to lookahead for rate control, default `FRAMERATE / 3`
 - `INGEST` the streaming service ingest server, default `rtmp://live-jfk.twitch.tv/app`
 - `STREAM_KEY_2`: the stream key for a second streaming service
 - `INGEST_2` a second streaming service ingest server, default none
@@ -27,10 +29,8 @@ and have a different PC encode and publish the stream to the remote server.
 The variables you set will be assembled into the following ffmpeg arguments:
 
 ```
--b:v ${BITRATE}K -bufsize ${BITRATE}K -s ${RESOLUTION} -c:v libx264 -preset ${PRESET} \
--profile:v ${PROFILE} -r ${FRAMERATE} -g ${FRAMERATE_2X} -keyint_min ${FRAMERATE_2X} -bf ${BFRAMES} \
--x264-params \"nal-hrd=cbr:force-cfr=1:keyint=${FRAMERATE_2X}:min-keyint=${FRAMERATE_2X}:no-scenecut\" \
--sws_flags lanczos -pix_fmt yuv420p -c:a copy -f flv -threads ${THREADS} -strict normal
+-s ${RESOLUTION} -c:v libx264 -preset ${PRESET} -profile:v ${PROFILE} -r ${FRAMERATE} -g ${FRAMERATE_2X} \
+-x264-params \"bitrate=${BITRATE}:vbv_maxrate=${BITRATE}:vbv_bufsize=${BUFSIZE}:threads=${THREADS}:bframes=${BFRAMES}:rc_lookahead=${RC_LOOKAHEAD}:keyint=${FRAMERATE_2X}:min-keyint=${FRAMERATE_2X}:nal_hrd=cbr:scenecut=0:rc=cbr:force-cfr=1\" -sws_flags ${SCALER} -pix_fmt yuv420p -c:a copy -f flv -strict normal
 ```
 
 If you prefer to customize the ffmpeg arguments, you can instead set the `FFMPEG_ARGS` environment variable, in which case none of the other optional environment variables will be used.
@@ -71,12 +71,15 @@ services:
     environment:
       - STREAM_KEY=live_x01234567890123456789x
       - BITRATE=2500
+      - BUFSIZE=876
       - RESOLUTION=1280x720
       - PRESET=veryfast
       - FRAMERATE=30
       - PROFILE=high
       - THREADS=0
       - BFRAMES=3
+      - SCALER=area
+      - RC_LOOKAHEAD=10
       - INGEST=rtmp://live-jfk.twitch.tv/app
 ```
 
@@ -95,8 +98,8 @@ Then use video settings that are very high in quality and low in overhead, e.g. 
 - File > Settings > Output > Streaming
 - Encoder: `NVENC H.264`
 - Rate Control: `CBR`
-- Bitrate: `50000`
+- Bitrate: `50000` or `100000` or `150000` (depending on your local network)
 - Keyframe Interval: `2`
 - Preset: `High Quality`
 - Profile: `high`
-- B-Frames: `3`
+- B-Frames: `0`
