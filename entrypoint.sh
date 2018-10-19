@@ -29,7 +29,7 @@ echo RC_LOOKAHEAD=$RC_LOOKAHEAD
 echo INGEST=$INGEST
 echo STREAM_KEY=$STREAM_KEY
 
-if [ -z ${FFMPEG_ARGS+x} ]; then FFMPEG_ARGS="-s ${RESOLUTION} -c:v libx264 -preset ${PRESET} -profile:v ${PROFILE} -g ${FRAMERATE_2X} -x264-params \"bitrate=${BITRATE}:vbv_maxrate=${BITRATE}:vbv_bufsize=${BUFSIZE}:threads=${THREADS}:bframes=${BFRAMES}:rc_lookahead=${RC_LOOKAHEAD}:keyint=${FRAMERATE_2X}:min-keyint=${FRAMERATE_2X}:nal_hrd=cbr:scenecut=0:rc=cbr:force-cfr=1\" -sws_flags ${SCALER} -pix_fmt yuv420p -c:a copy -f flv -strict normal"; fi
+if [ -z ${FFMPEG_ARGS+x} ]; then FFMPEG_ARGS="-s ${RESOLUTION} -c:v libx264 -preset ${PRESET} -profile:v ${PROFILE} -g ${FRAMERATE_2X} -x264-params \"bitrate=${BITRATE}:vbv_maxrate=${BITRATE}:vbv_bufsize=${BUFSIZE}:threads=${THREADS}:bframes=${BFRAMES}:rc_lookahead=${RC_LOOKAHEAD}:keyint=${FRAMERATE_2X}:min-keyint=${FRAMERATE_2X}:nal_hrd=cbr:scenecut=0:rc=cbr:force-cfr=1\" -sws_flags ${SCALER} -pix_fmt yuv420p -c:a copy -f mp4 -strict normal"; fi
 
 cat >/etc/nginx/nginx.conf << EOF
 error_log logs/error.log debug;
