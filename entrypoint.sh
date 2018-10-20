@@ -48,7 +48,7 @@ rtmp {
     application livein {
       live on;
       record off;
-      exec ffmpeg -loglevel error -i "rtmp://127.0.0.1/livein/${STREAM_KEY}" ${FFMPEG_ARGS} "rtmp://127.0.0.1/liveout";
+      exec ffmpeg -i "rtmp://127.0.0.1/livein/${STREAM_KEY}" ${FFMPEG_ARGS} "rtmp://127.0.0.1/liveout";
     }
 
     application liveout {
