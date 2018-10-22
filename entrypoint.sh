@@ -29,7 +29,7 @@ echo RC_LOOKAHEAD=$RC_LOOKAHEAD
 echo INGEST=$INGEST
 echo STREAM_KEY=$STREAM_KEY
 
-if [ -z ${FFMPEG_ARGS+x} ]; then FFMPEG_ARGS="-s ${RESOLUTION} -filter:v \"minterpolate=fps=${FRAMERATE}:mi_mode=blend:scd=none\" -c:v libx264 -preset ${PRESET} -profile:v ${PROFILE} -g ${FRAMERATE_2X} -x264-params \"bitrate=${BITRATE}:vbv_maxrate=${BITRATE}:vbv_bufsize=${BUFSIZE}:threads=${THREADS}:bframes=${BFRAMES}:rc_lookahead=${RC_LOOKAHEAD}:keyint=${FRAMERATE_2X}:keyint_min=${FRAMERATE_2X}:nal_hrd=cbr:scenecut=0:rc=cbr:force_cfr=1\" -sws_flags ${SCALER} -pix_fmt yuv420p -c:a copy -f flv -strict normal"; fi
+if [ -z ${FFMPEG_ARGS+x} ]; then FFMPEG_ARGS="-s ${RESOLUTION} -r ${FRAMERATE} -c:v libx264 -preset ${PRESET} -profile:v ${PROFILE} -g ${FRAMERATE_2X} -x264-params \"bitrate=${BITRATE}:vbv_maxrate=${BITRATE}:vbv_bufsize=${BUFSIZE}:threads=${THREADS}:bframes=${BFRAMES}:rc_lookahead=${RC_LOOKAHEAD}:keyint=${FRAMERATE_2X}:keyint_min=${FRAMERATE_2X}:nal_hrd=cbr:scenecut=0:rc=cbr:force_cfr=1\" -sws_flags ${SCALER} -pix_fmt yuv420p -c:a copy -f flv -strict normal"; fi
 
 cat >/etc/nginx/nginx.conf << EOF
 error_log logs/error.log debug;
