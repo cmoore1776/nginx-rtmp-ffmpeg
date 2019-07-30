@@ -1,13 +1,16 @@
 # Dockerfile for a simple Nginx stream replicator
-FROM alpine:3.9
+FROM alpine:3.10
 
 ENV USER nginx
 RUN adduser -s /sbin/nologin -D -H ${USER}
 
-RUN apk --update --no-cache add \
-      nginx-mod-rtmp \
-      ffmpeg && \
-      rm -rf /var/cache/apk/*
+RUN \
+  apk update && \
+  apk upgrade && \
+  apk add \
+    nginx-mod-rtmp \
+    ffmpeg && \
+  rm -rf /var/cache/apk/*
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
