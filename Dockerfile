@@ -1,5 +1,5 @@
 # Dockerfile for a simple Nginx stream replicator
-FROM alpine:3.14
+FROM alpine:3.16
 
 ENV USER nginx
 RUN adduser -s /sbin/nologin -D -H ${USER}
